@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * @author kq
  * 2024-07-06 19:54
- * 默认，提供列举所有 Bean 的工厂
+ * 默认(Default)，提供列举所有实例(Listable)的 Bean 工厂
  **/
 public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements BeanDefinitionRegistry {
 

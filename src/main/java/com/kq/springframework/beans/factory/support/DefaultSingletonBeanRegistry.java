@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * @author kq
  * 2024-07-06 19:42
- * 默认单例 Bean 注册机
+ * 默认单例 Bean 注册机，提供了注册 Bean 的能力
  **/
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 

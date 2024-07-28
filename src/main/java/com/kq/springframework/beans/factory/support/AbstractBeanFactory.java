@@ -7,7 +7,7 @@ import com.kq.springframework.beans.factory.config.BeanDefinition;
 /**
  * @author kq
  * 2024-07-06 19:43
- * 抽象的 Bean 工厂，定义 Bean 工厂的完整流程【模板模式】
+ * 抽象的 Bean 工厂，定义实现 Bean 工厂的完整流程【模板模式】
  **/
 @SuppressWarnings("unchecked")
 public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements BeanFactory {

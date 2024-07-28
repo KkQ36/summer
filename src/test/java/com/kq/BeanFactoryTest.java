@@ -13,7 +13,7 @@ import org.junit.Test;
  * @author kq
  * 2024-07-06 11:03
  **/
-public class test {
+public class BeanFactoryTest {
 
     @Test
     public void test_BeanFactory() {

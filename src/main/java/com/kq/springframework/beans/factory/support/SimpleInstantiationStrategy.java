@@ -9,7 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * @author kq
  * 2024-07-07 11:22
- * 普通的 Bean 实例化策略，利用默认的无参构造器来实例化
+ * 普通的 Bean 实例化策略，利用默认的无参构造器来实例化【策略模式】
  **/
 public class SimpleInstantiationStrategy implements InstantiationStrategy{
 

@@ -8,7 +8,7 @@ import java.lang.reflect.Constructor;
 /**
  * @author kq
  * 2024-07-07 11:20
- * Bean 实例化策略
+ * Bean 实例化策略【策略模式】
  **/
 public interface InstantiationStrategy {
 

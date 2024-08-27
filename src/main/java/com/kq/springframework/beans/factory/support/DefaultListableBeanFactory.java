@@ -2,7 +2,6 @@ package com.kq.springframework.beans.factory.support;
 
 import com.kq.springframework.beans.BeansException;
 import com.kq.springframework.beans.factory.config.BeanDefinition;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +12,20 @@ import java.util.Map;
  **/
 public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements BeanDefinitionRegistry {
 
+    /**
+     * BeanDefinitionMap，保存 BeanDefinition，key 为 Bean Name value 为 BeanDefinition
+     */
     private final Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>();
+
+    @Override
+    public boolean containsBeanDefinition(String beanName) {
+        return beanDefinitionMap.containsKey(beanName);
+    }
+
+    @Override
+    public String[] getBeanDefinitionNames() {
+        return beanDefinitionMap.keySet().toArray(new String[0]);
+    }
 
     @Override
     public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {

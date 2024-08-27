@@ -14,11 +14,15 @@ public class UserService {
         System.out.println("查询用户信息：" + userDao.queryUserName(uId));
     }
 
-    public String getuId() {
+    public void test() {
+        System.out.println("test message!");
+    }
+
+    public String getUId() {
         return uId;
     }
 
-    public void setuId(String uId) {
+    public void setUId(String uId) {
         this.uId = uId;
     }
 

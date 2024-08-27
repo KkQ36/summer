@@ -5,7 +5,7 @@ import com.kq.springframework.beans.PropertyValues;
 /**
  * @author kq
  * 2024-07-06 19:33
- * Bean 定义
+ * Bean 定义，定义了 Bean 的 Class 信息和依赖的属性信息
  */
 public class BeanDefinition {
 

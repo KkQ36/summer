@@ -11,7 +11,7 @@ import java.lang.reflect.Constructor;
 /**
  * @author kq
  * 2024-07-06 19:49
- * 自动装配 Bean 工厂
+ * 自动装配 Bean 工厂，封装了 Bean 实例化操作
  **/
 public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory {
 
@@ -19,7 +19,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
     @Override
     protected Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException {
-        Object bean = null;
+        Object bean;
         try {
             bean = createBeanInstance(beanDefinition, beanName, args);
             // 给 Bean 填充属性
@@ -32,6 +32,13 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         return bean;
     }
 
+    /**
+     * 根据配置的实例化属性来实例化 Bean
+     * @param beanDefinition Bean 定义
+     * @param beanName Bean 名称
+     * @param args 构造函数参数
+     * @return 实例化好的 Bean
+     */
     protected Object createBeanInstance(BeanDefinition beanDefinition, String beanName, Object[] args) {
         Constructor<?> constructorToUse = null;
         Class<?> beanClass = beanDefinition.getBeanClass();
@@ -46,13 +53,16 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     }
 
     /**
-     * Bean 属性填充
+     * 填充 Bean 对象的属性
+     * @param beanName Bean Name
+     * @param bean Bean 对象
+     * @param beanDefinition BeanDefinition
      */
     protected void applyPropertyValues(String beanName, Object bean, BeanDefinition beanDefinition) {
         try {
             PropertyValues propertyValues = beanDefinition.getPropertyValues();
+            // 遍历 Bean 对象中需要填充的属性，并且为其填充配置配置好的属性，若属性是 BeanReference 类型，则获取 Bean 对象
             for (PropertyValue propertyValue : propertyValues.getPropertyValues()) {
-
                 String name = propertyValue.getName();
                 Object value = propertyValue.getValue();
 
@@ -69,10 +79,18 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         }
     }
 
+    /**
+     * 获取实例化策略
+     * @return 实例化策略
+     */
     public InstantiationStrategy getInstantiationStrategy() {
         return instantiationStrategy;
     }
 
+    /**
+     * 设置实例化策略
+     * @param instantiationStrategy 实例化策略
+     */
     public void setInstantiationStrategy(InstantiationStrategy instantiationStrategy) {
         this.instantiationStrategy = instantiationStrategy;
     }

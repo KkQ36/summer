@@ -10,4 +10,9 @@ public interface SingletonBeanRegistry {
 
     Object getSingleton(String beanName);
 
+    /**
+     * 执行 DisposableBean 中定义的方法
+     */
+    void destroySingletons();
+
 }

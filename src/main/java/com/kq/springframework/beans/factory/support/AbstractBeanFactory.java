@@ -3,6 +3,12 @@ package com.kq.springframework.beans.factory.support;
 import com.kq.springframework.beans.BeansException;
 import com.kq.springframework.beans.factory.BeanFactory;
 import com.kq.springframework.beans.factory.config.BeanDefinition;
+import com.kq.springframework.beans.factory.config.BeanPostProcessor;
+import com.kq.springframework.beans.factory.config.ConfigurableBeanFactory;
+import com.kq.springframework.util.ClassUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author kq
@@ -11,7 +17,11 @@ import com.kq.springframework.beans.factory.config.BeanDefinition;
  * 通过继承 DefaultSingletonBeanRegistry，获取单例 Bean 注册的能力
  **/
 @SuppressWarnings("unchecked")
-public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements BeanFactory {
+public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
+
+    private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
+
+    private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
 
     @Override
     public Object getBean(String name) throws BeansException {
@@ -26,6 +36,10 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
     @Override
     public <T> T getBean(String name, Class<T> requiredType) throws BeansException {
         return (T) getBean(name);
+    }
+
+    public ClassLoader getBeanClassLoader() {
+        return this.beanClassLoader;
     }
 
     /**
@@ -45,6 +59,12 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
         return (T) createBean(name, beanDefinition, args);
     }
 
+    @Override
+    public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor){
+        this.beanPostProcessors.remove(beanPostProcessor);
+        this.beanPostProcessors.add(beanPostProcessor);
+    }
+
     /**
      * 获取 BeanDefinition，交给子类去实现
      * @param beanName Bean name
@@ -60,5 +80,13 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
      * @return 创建的 Bean
      */
     protected abstract Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException;
+
+    /**
+     * Return the list of BeanPostProcessors that will get applied
+     * to beans created with this factory.
+     */
+    public List<BeanPostProcessor> getBeanPostProcessors() {
+        return this.beanPostProcessors;
+    }
 
 }

@@ -2,6 +2,8 @@ package com.kq.springframework.beans.factory.support;
 
 import com.kq.springframework.beans.BeansException;
 import com.kq.springframework.beans.factory.config.BeanDefinition;
+import com.kq.springframework.beans.factory.ConfigurableListableBeanFactory;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +12,7 @@ import java.util.Map;
  * 2024-07-06 19:54
  * 默认(Default)，提供列举所有实例(Listable)的 Bean 工厂
  **/
-public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements BeanDefinitionRegistry {
+public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements BeanDefinitionRegistry, ConfigurableListableBeanFactory {
 
     /**
      * BeanDefinitionMap，保存 BeanDefinition，key 为 Bean Name value 为 BeanDefinition
@@ -20,6 +22,18 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     @Override
     public boolean containsBeanDefinition(String beanName) {
         return beanDefinitionMap.containsKey(beanName);
+    }
+
+    @Override
+    public <T> Map<String, T> getBeansOfType(Class<T> type) throws BeansException {
+        Map<String, T> result = new HashMap<>();
+        beanDefinitionMap.forEach((beanName, beanDefinition) -> {
+            Class<?> beanClass = beanDefinition.getBeanClass();
+            if (type.isAssignableFrom(beanClass)) {
+                result.put(beanName, (T) getBean(beanName));
+            }
+        });
+        return result;
     }
 
     @Override
@@ -37,6 +51,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
         BeanDefinition beanDefinition = beanDefinitionMap.get(beanName);
         if (beanDefinition == null) throw new BeansException("No bean named '" + beanName + "' is defined");
         return beanDefinition;
+    }
+
+    @Override
+    public void preInstantiateSingletons() throws BeansException {
+        beanDefinitionMap.keySet().forEach(this::getBean);
     }
 
 }

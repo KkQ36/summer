@@ -4,10 +4,13 @@
     <bean id="userDao" class="com.kq.service.UserDao"/>
 
     <bean id="userService" class="com.kq.service.UserService">
-        <property name="uId" value="10000"/>
+        <property name="uId" value="10001"/>
         <property name="company" value="腾讯"/>
         <property name="location" value="深圳"/>
         <property name="userDao" ref="userDao"/>
     </bean>
+
+    <bean class="com.kq.common.MyBeanFactoryPostProcessor" />
+    <bean class="com.kq.common.MyBeanPostProcessor" />
 
 </beans>
